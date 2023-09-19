@@ -12,7 +12,6 @@ import { REGEX } from 'shared/utils/constants';
 export const RegisterForm = () => {
 	const navigate = useNavigate();
 	const [isErrorPopupOpen, setErrorPopupOpen] = useState(false);
-	const [repeatpasswordInputValue, setRepeatpasswordInputValue] = useState('');
 	const { values, handleChange, errors, isValid, resetForm } =
 		useFormValidation();
 
@@ -28,7 +27,18 @@ export const RegisterForm = () => {
 		} else {
 			e.target.setCustomValidity('');
 		}
-		setRepeatpasswordInputValue(e.target.value);
+		handleChange(e);
+	};
+
+	const validatePasswordInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (
+			values.secondPassword !== '' &&
+			e.target.value !== values.secondPassword
+		) {
+			e.target.setCustomValidity('Пароли не совпадают');
+		} else {
+			e.target.setCustomValidity('');
+		}
 		handleChange(e);
 	};
 
@@ -83,7 +93,7 @@ export const RegisterForm = () => {
 					name="password"
 					value={values.password}
 					placeholder="Пароль"
-					setValue={handleChange}
+					setValue={validatePasswordInput}
 					isValidInput={errors.password}
 					pattern={REGEX.password.source}
 				/>
@@ -92,7 +102,7 @@ export const RegisterForm = () => {
 					type="password"
 					id="secondPassword"
 					name="secondPassword"
-					value={repeatpasswordInputValue}
+					value={values.secondPassword}
 					placeholder="Повторите пароль"
 					setValue={validateRepeatpasswordInput}
 					isValidInput={errors.secondPassword}

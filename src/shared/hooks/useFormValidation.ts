@@ -25,13 +25,29 @@ export function useFormValidation() {
 				[name]:
 					'Некорректно введено e-mail. Допустимые символы для ввода: только цифры, латинские буквы, нижнее подчеркивание, дефис, знак @ и точка',
 			});
-		} else if (name === 'name' && target.validationMessage !== '') {
+		} else if (
+			name === 'name' &&
+			target.validationMessage !== '' &&
+			target.validationMessage !== 'Пароли не совпадают'
+		) {
 			setErrors({
 				...errors,
 				[name]:
 					'Некорректно введено Имя. Допустимые символы для ввода: от 2 до 50 символов, пробел, дефис, кириллические, латинские буквы',
 			});
-		} else if (name === 'password' && target.validationMessage !== '') {
+		} else if (
+			name === 'name' &&
+			target.validationMessage === 'Пароли не совпадают'
+		) {
+			setErrors({
+				...errors,
+				[name]: target.validationMessage,
+			});
+		} else if (
+			name === 'password' &&
+			target.validationMessage !== 'Пароли не совпадают' &&
+			target.validationMessage !== ''
+		) {
 			setErrors({
 				...errors,
 				[name]:
